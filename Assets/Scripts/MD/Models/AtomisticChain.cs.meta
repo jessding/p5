@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 1ceba7a07f15e1c4894a56b22c1d9eeb
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - beadModel: {fileID: 4802022477137841571, guid: f4133ecd4ec6af24689602b3bb3976c4, type: 3}
+  - bondModel: {fileID: 5499788865264105984, guid: 15f6b562322f9f74392646ed56f2823a, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
