@@ -153,47 +153,7 @@ public class MartiniModel : ChainCreator
             // TODO: This section attaches the beadagent script at runtime to specific beads, will have to delete if using chainobserver
             // brings the prefab that has the Agent script attached
             
-            if (AgentModel != null)
-            {
-                // put ML setup here!
-                var endIdx = _beads.Count - numBeads - 2;
-                var startIdx = _beads.Count - numBeads;
-                var aIdx = _edges[startIdx].Except(new[] { endIdx }).First();
-                var bIdx = _edges[endIdx].Except(new[] { startIdx }).First();
-
-                _pairs.Add((_beads[startIdx], _beads[endIdx]));
-
-                //TODO: find out if this instantiate is needed still for some beads
-                var startAgent = Instantiate(AgentModel, _beads[startIdx].transform).GetComponent<BeadAgent>(); 
-                var endAgent = Instantiate(AgentModel, _beads[endIdx].transform).GetComponent<BeadAgent>();
-
-                startAgent.creator = endAgent.creator = GetComponent<NewMoleculeCreator>();
-
-                startAgent.idx = startIdx;
-                endAgent.idx = endIdx;
-
-
-                // TODO: remove all dihedral, negligible for cellulose acetate
-                startAgent.dihedral = new() { _beads[aIdx], _beads[startIdx], _beads[endIdx], _beads[bIdx] };
-                endAgent.dihedral = new(startAgent.dihedral);
-                endAgent.dihedral.Reverse();
-                startAgent.bondAngle = new() { _beads[aIdx], _beads[startIdx], _beads[endIdx] };
-                endAgent.bondAngle = new() { _beads[startIdx], _beads[endIdx], _beads[bIdx] };
-                var rgBodies = new SortedList<int, GameObject>(_beads)
-                    .Select(x => x.Value.GetComponent<Rigidbody>()).ToList();
-                var embBeads = new SortedList<int, GameObject>(_beads)
-                    .Select(x => x.Value.GetComponent<EmbeddedBead>()).ToList();
-                startAgent.rgBody = _beads[startIdx].GetComponent<Rigidbody>();
-                endAgent.rgBody = _beads[endIdx].GetComponent<Rigidbody>();
-
-                startAgent.exclude = _edges[startIdx].Concat(new []{startIdx}).Select(x => new List<int>(x).Concat(_edges[x])).SelectMany(x => x)
-                    .Select(x => _beads[x]).ToList();
-                endAgent.exclude = _edges[endIdx].Concat(new []{endIdx}).Select(x => new List<int>(x).Concat(_edges[x])).SelectMany(x => x)
-                    .Select(x => _beads[x]).ToList();
-
-                _beads[startIdx].GetComponent<EmbeddedBead>().Cat = MyType.START;
-                _beads[endIdx].GetComponent<EmbeddedBead>().Cat = MyType.END;
-            }
+            // manually attach chainagent to molecule, instead of beadagent script
         }
     }
 

@@ -9,11 +9,11 @@ using UnityEngine;
 [RequireComponent(typeof(NewMoleculeCreator))]
 public class ChainObserver : MonoBehaviour
 {
-    private ChainCreator chainCreator;
+    public ChainCreator chainCreator;
     private GameObject locator;
     
     Vector3 centerOfMass = Vector3.zero;
-    private float rg_sq = 0f;
+    public float rg_sq = 0f;
 
     // Start is called before the first frame update
     void Start()
